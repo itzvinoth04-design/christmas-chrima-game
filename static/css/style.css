@@ -1,0 +1,24 @@
+body.welcome {
+    background: url("/static/images/christmas-bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    height: 100vh;
+}
+
+.center-box {
+    text-align: center;
+    margin-top: 20%;
+    background: rgba(0,0,0,0.5);
+    padding: 40px;
+    border-radius: 15px;
+}
+
+.btn {
+    background: red;
+    padding: 15px 30px;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 18px;
+}
