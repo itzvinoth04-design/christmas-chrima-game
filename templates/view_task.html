@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Task</title>
+</head>
+<body>
+    <h2>📋 Your Assigned Tasks</h2>
+
+    {% if tasks %}
+        <ul>
+            {% for task in tasks %}
+                <li>{{ task.content }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks assigned yet.</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('dashboard') }}">Back</a>
+</body>
+</html>

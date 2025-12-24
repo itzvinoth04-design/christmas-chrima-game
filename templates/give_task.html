@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Give Task</title>
+</head>
+<body>
+    <h2>🎯 Give Task to Your Chrima</h2>
+
+    <form method="post">
+        <textarea name="task" placeholder="Enter task..." required></textarea><br><br>
+        <button type="submit">Send Task</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('dashboard') }}">Back</a>
+</body>
+</html>

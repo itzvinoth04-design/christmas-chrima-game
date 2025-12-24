@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h2>🎁 Dashboard</h2>
+
+    <p>Welcome, {{ current_user.username }}!</p>
+
+    <ul>
+        <li><a href="{{ url_for('give_task') }}">Give Task</a></li>
+        <li><a href="{{ url_for('view_task') }}">View Task</a></li>
+
+        {% if current_user.is_admin %}
+        <li><a href="{{ url_for('admin') }}">Admin Panel</a></li>
+        {% endif %}
+    </ul>
+
+    <br>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
