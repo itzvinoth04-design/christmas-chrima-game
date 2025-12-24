@@ -93,6 +93,25 @@ with app.app_context():
     db.create_all()
 
 # -------------------- RUN APP --------------------
+
+@app.route("/give-task")
+@login_required
+def give_task():
+    return render_template("give_task.html")
+
+@app.route("/view-task")
+@login_required
+def view_task():
+    return render_template("view_task.html")
+
+@app.route("/admin")
+@login_required
+def admin():
+    if not current_user.is_admin:
+        return "Access denied"
+    return render_template("admin.html")
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
