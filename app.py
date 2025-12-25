@@ -25,19 +25,26 @@ login_manager.login_view = "login"
 
 # ------------------ MODEL ------------------
 class User(UserMixin, db.Model):
+    __tablename__ = "users"
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
-    chrima_id = db.Column(db.Integer, nullable=True)
+    chrima_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+
 
 class Task(db.Model):
+    __tablename__ = "tasks"
+
     id = db.Column(db.Integer, primary_key=True)
-    sender_id = db.Column(db.Integer, nullable=False)
-    receiver_id = db.Column(db.Integer, nullable=False)
     content = db.Column(db.Text, nullable=False)
+    giver_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    receiver_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+
 
 class GameState(db.Model):
+    __tablename__ = "GameState"
     id = db.Column(db.Integer, primary_key=True)
     reveal_enabled = db.Column(db.Boolean, default=False)
 
@@ -230,14 +237,11 @@ def view_my_chrima():
     return render_template("my_chrima.html", chrima=chrima_user.username)
 
 # ------------------ INIT DB ------------------
+
 with app.app_context():
-    print(">>> Creating database and tables...")
+    db.drop_all()
     db.create_all()
-    print(">>> Database creation DONE")
-with app.app_context():
-    if GameState.query.first() is None:
-        db.session.add(GameState(reveal_enabled=False))
-        db.session.commit()
+    print("✅ Tables recreated")
 
 
 # ------------------ RUN ------------------
