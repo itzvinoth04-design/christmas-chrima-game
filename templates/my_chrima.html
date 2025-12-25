@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Christmas Surprise</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+    background:
+      radial-gradient(circle at center, rgba(0,0,0,0.35), rgba(0,0,0,0.9)),
+      url("{{ url_for('static', filename='images/reveal.jpg') }}")
+      no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    text-align: center;
+}
+
+/* Title */
+h1 {
+    margin-top: 28px;
+    font-size: clamp(1.6em, 6vw, 2.6em);
+    text-shadow: 0 0 22px rgba(255,255,255,0.7);
+}
+
+/* Start button */
+#startBtn {
+    margin-top: 70px;
+    padding: 18px 40px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(#ffd60a, #ffb703);
+    color: #000;
+    box-shadow: 0 18px 38px rgba(0,0,0,0.7);
+}
+
+/* Countdown */
+#countdown {
+    font-size: clamp(4em, 18vw, 6em);
+    margin-top: 30px;
+    display: none;
+    text-shadow: 0 0 45px gold;
+}
+
+/* 3D Reveal Container */
+#reveal {
+    display: none;
+    margin-top: 90px;
+    perspective: 1400px; /* stronger depth */
+}
+
+/* 3D Text */
+.reveal-text {
+    position: relative;
+    font-size: clamp(2.6em, 11vw, 3.9em);
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    transform-style: preserve-3d;
+    animation:
+        textIn 2.6s cubic-bezier(.15,1.6,.3,1) forwards,
+        float 6s ease-in-out infinite 2.6s; /* floating starts after reveal */
+
+    text-shadow:
+        0 2px 0 #d4af37,
+        0 5px 0 #b8962e,
+        0 8px 0 #9c7c24,
+        0 14px 28px rgba(0,0,0,0.85);
+}
+
+/* Shine sweep */
+.reveal-text::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        transparent 35%,
+        rgba(255,255,255,0.55),
+        transparent 65%
+    );
+    transform: translateX(-130%);
+    animation: shine 3s ease forwards;
+}
+
+/* Animations */
+@keyframes textIn {
+    from {
+        opacity: 0;
+        transform: translateZ(-380px) rotateX(45deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateZ(0) rotateX(0deg);
+    }
+}
+
+@keyframes float {
+    0%   { transform: translateY(0) translateZ(0); }
+    50%  { transform: translateY(-12px) translateZ(0); }
+    100% { transform: translateY(0) translateZ(0); }
+}
+
+@keyframes shine {
+    to { transform: translateX(130%); }
+}
+
+/* Snow */
+.snow {
+    position: fixed;
+    top: -10px;
+    pointer-events: none;
+    animation: snow linear infinite;
+    text-shadow: 0 0 8px white;
+}
+
+@keyframes snow {
+    to { transform: translateY(110vh); }
+}
+
+/* Fireworks canvas */
+canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<h1 id="title">🎄 A Christmas Surprise Awaits 🎄</h1>
+
+<button id="startBtn">✨ Start Surprise</button>
+
+<div id="countdown">10</div>
+
+<div id="reveal">
+    <div class="reveal-text">🎁 your chrima is 
+        {{ chrima }} 🎁</div>
+</div>
+
+<!-- 🎵 MUSIC -->
+<audio id="music" loop>
+    <source src="{{ url_for('static', filename='music/christmas.mp3') }}">
+</audio>
+
+<!-- ⏰ Tick -->
+<audio id="tick">
+    <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YRAAAAAA//////8AAP//AAD///8AAP//AAD///8AAP//AAD///8A">
+</audio>
+
+<script>
+/* ❄️ Snow */
+for (let i=0;i<40;i++){
+    let s=document.createElement("div");
+    s.className="snow";
+    s.innerHTML="❄";
+    s.style.left=Math.random()*100+"vw";
+    s.style.fontSize=(Math.random()*14+10)+"px";
+    s.style.animationDuration=(Math.random()*6+6)+"s";
+    document.body.appendChild(s);
+}
+
+/* 🎆 Fireworks */
+const c=document.getElementById("fireworks"),ctx=c.getContext("2d");
+function resize(){c.width=innerWidth;c.height=innerHeight}
+resize(); window.onresize=resize;
+let particles=[];
+class P{
+    constructor(x,y,c){
+        this.x=x;this.y=y;this.c=c;
+        this.vx=(Math.random()-.5)*8;
+        this.vy=(Math.random()-.5)*8;
+        this.life=90;
+    }
+    update(){this.x+=this.vx;this.y+=this.vy;this.vy+=.05;this.life--}
+    draw(){ctx.fillStyle=this.c;ctx.fillRect(this.x,this.y,3,3)}
+}
+function explode(x,y){
+    const cols=["#ffd60a","#ff006e","#8338ec","#3a86ff"];
+    for(let i=0;i<160;i++)
+        particles.push(new P(x,y,cols[Math.floor(Math.random()*cols.length)]))
+}
+function animate(){
+    ctx.clearRect(0,0,c.width,c.height);
+    particles=particles.filter(p=>p.life>0);
+    particles.forEach(p=>{p.update();p.draw()});
+    requestAnimationFrame(animate);
+}
+animate();
+
+/* 🎬 Main logic */
+let btn=document.getElementById("startBtn");
+let cd=document.getElementById("countdown");
+let reveal=document.getElementById("reveal");
+let title=document.getElementById("title");
+let music=document.getElementById("music");
+let tick=document.getElementById("tick");
+
+btn.onclick=()=>{
+    btn.style.display="none";
+    cd.style.display="block";
+
+    music.volume=0;
+    music.play();
+    let v=0;
+    let fade=setInterval(()=>{
+        if(v<0.7){v+=0.05; music.volume=v;}
+        else clearInterval(fade);
+    },200);
+
+    let t=10;
+    let timer=setInterval(()=>{
+        tick.currentTime=0; tick.play();
+        t--; cd.innerText=t;
+
+        if(t===0){
+            clearInterval(timer);
+            cd.style.display="none";
+            title.style.display="none";
+
+            reveal.style.display="block";
+
+            setTimeout(()=>{
+                for(let i=0;i<6;i++)
+                    setTimeout(()=>explode(Math.random()*c.width,Math.random()*c.height*0.6),i*600);
+            },1500);
+        }
+    },1000);
+};
+</script>
+
+</body>
+</html>

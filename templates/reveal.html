@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reveal</title>
+    <title>Chrima Reveal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <h2>🎆 Chrima Reveal</h2>
+<body class="reveal-bg">
 
-    <p>Your Chrima was:</p>
-    <h3>{{ chrima_name }}</h3>
+<h1>🎆 Chrima Reveal 🎆</h1>
 
-    <br>
-    <a href="{{ url_for('dashboard') }}">Back</a>
+<div class="reveal-box">
+    {% for item in reveal_data %}
+        <p>🎁 <b>{{ item.giver }}</b> ➜ <b>{{ item.receiver }}</b></p>
+    {% endfor %}
+</div>
+
+<a href="{{ url_for('dashboard') }}">⬅ Back</a>
+
 </body>
 </html>

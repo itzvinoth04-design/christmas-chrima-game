@@ -2,21 +2,53 @@
 <html>
 <head>
     <title>Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            min-height: 100vh;
+            background:
+              linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+              url("{{ url_for('static', filename='images/dashboard.jpg') }}")
+              no-repeat center center fixed;
+            background-size: cover;
+            font-family: "Segoe UI", sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .panel {
+            background: rgba(255,255,255,0.15);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        button {
+            margin: 10px 0;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            width: 100%;
+        }
+    </style>
 </head>
+
 <body>
+<div class="panel">
     <h2>👑 Admin Control Panel</h2>
 
-    <form action="/assign_chrima" method="post">
-        <button type="submit">🎁 Assign Chrima Randomly</button>
+    <form method="post" action="{{ url_for('assign_chrima') }}">
+        <button>🎁 Assign Chrima</button>
     </form>
 
-    <br>
-
-    <form action="/reveal" method="get">
-        <button type="submit">🎆 Reveal Chrima</button>
+    <form method="post" action="{{ url_for('enable_reveal') }}">
+        <button>🎆 Enable Reveal</button>
     </form>
 
-    <br>
-    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    <a href="{{ url_for('dashboard') }}">⬅ Back</a>
+</div>
 </body>
 </html>

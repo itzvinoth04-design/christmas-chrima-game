@@ -1,24 +1,23 @@
-body.welcome {
-    background: url("/static/images/christmas-bg.jpg") no-repeat center center fixed;
-    background-size: cover;
-    font-family: 'Segoe UI', sans-serif;
-    color: white;
-    height: 100vh;
-}
-
-.center-box {
+body {
+    font-family: Arial, sans-serif;
     text-align: center;
-    margin-top: 20%;
-    background: rgba(0,0,0,0.5);
-    padding: 40px;
-    border-radius: 15px;
+    background: linear-gradient(#0a043c, #1b1b3a);
+    color: white;
 }
 
-.btn {
-    background: red;
-    padding: 15px 30px;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    font-size: 18px;
+.reveal-bg {
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { background-color: #0a043c; }
+    to { background-color: #3a0ca3; }
+}
+
+.reveal-box {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 30px auto;
+    width: 60%;
 }

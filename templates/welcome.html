@@ -2,13 +2,109 @@
 <html>
 <head>
     <title>Family Christmas</title>
+
+    <!-- Viewport for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Optional global CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* 🎄 Background image + overlay */
+        body.welcome {
+            margin: 0;
+            height: 100vh;
+            background:
+              linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65)),
+              url("{{ url_for('static', filename='images/welcome.jpg') }}")
+              no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* 📦 Center box */
+        .center-box {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 35px 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 90%;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        }
+
+        .center-box h1 {
+            font-size: clamp(1.6em, 5vw, 2.6em);
+            margin-bottom: 25px;
+            line-height: 1.4;
+            text-shadow: 0 0 12px rgba(255,255,255,0.4);
+        }
+
+        /* 🎁 Button */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: linear-gradient(#d00000, #9b0000);
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 14px 35px rgba(0,0,0,0.7);
+        }
+
+        /* ❄️ Snow animation */
+        .snow {
+            position: fixed;
+            top: -10px;
+            color: white;
+            opacity: 0.8;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
+
+        /* 📱 Mobile optimization */
+        @media (max-width: 600px) {
+            body.welcome {
+                background-attachment: scroll;
+            }
+        }
+    </style>
 </head>
+
 <body class="welcome">
 
+    <!-- ❄️ Snowfall Script -->
+    <script>
+        for (let i = 0; i < 40; i++) {
+            let snow = document.createElement("div");
+            snow.className = "snow";
+            snow.innerHTML = "❄";
+            snow.style.left = Math.random() * 100 + "vw";
+            snow.style.fontSize = (Math.random() * 14 + 10) + "px";
+            snow.style.animationDuration = (Math.random() * 5 + 5) + "s";
+            document.body.appendChild(snow);
+        }
+    </script>
+
+    <!-- 🎄 Content -->
     <div class="center-box">
         <h1>🎄 Welcome to Our Cute Family Christmas Celebration 🎄</h1>
-        <a href="/login" class="btn">Enter Celebration</a>
+        <a href="{{ url_for('login') }}" class="btn">🎁 Enter Celebration</a>
     </div>
 
 </body>

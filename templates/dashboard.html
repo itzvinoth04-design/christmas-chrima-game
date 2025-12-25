@@ -2,22 +2,52 @@
 <html>
 <head>
     <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            min-height: 100vh;
+            background:
+              linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+              url("{{ url_for('static', filename='images/dashboard.jpg') }}")
+              no-repeat center center fixed;
+            background-size: cover;
+            font-family: "Segoe UI", sans-serif;
+            color: white;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.12);
+            padding: 25px;
+            border-radius: 18px;
+            max-width: 420px;
+            margin: auto;
+        }
+
+        a {
+            display: block;
+            margin: 10px 0;
+            color: #ffd166;
+            text-decoration: none;
+        }
+    </style>
 </head>
+
 <body>
+<div class="card">
     <h2>🎁 Dashboard</h2>
+    <p>Welcome, <b>{{ current_user.username }}</b> 🎄</p>
 
-    <p>Welcome, {{ current_user.username }}!</p>
+    <a href="{{ url_for('give_task') }}">🎯 Give Task</a>
+    <a href="{{ url_for('view_task') }}">📋 View Task</a>
+    <a href="{{ url_for('view_my_chrima') }}">🎆 View My Chrima</a>
 
-    <ul>
-        <li><a href="{{ url_for('give_task') }}">Give Task</a></li>
-        <li><a href="{{ url_for('view_task') }}">View Task</a></li>
+    {% if current_user.is_admin %}
+        <a href="{{ url_for('admin') }}">👑 Admin Panel</a>
+    {% endif %}
 
-        {% if current_user.is_admin %}
-        <li><a href="{{ url_for('admin') }}">Admin Panel</a></li>
-        {% endif %}
-    </ul>
-
-    <br>
-    <a href="{{ url_for('logout') }}">Logout</a>
+    <a href="{{ url_for('logout') }}">🚪 Logout</a>
+</div>
 </body>
 </html>

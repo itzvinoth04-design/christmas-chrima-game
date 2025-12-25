@@ -2,16 +2,48 @@
 <html>
 <head>
     <title>Give Task</title>
-</head>
-<body>
-    <h2>🎯 Give Task to Your Chrima</h2>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <style>
+        body {
+            background:
+              linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+              url("{{ url_for('static', filename='images/dashboard.jpg') }}")
+              no-repeat center center fixed;
+            background-size: cover;
+            font-family: "Segoe UI", sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .box {
+            background: rgba(255,255,255,0.15);
+            padding: 25px;
+            border-radius: 18px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        textarea, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="box">
+    <h2>🎯 Give Task</h2>
     <form method="post">
-        <textarea name="task" placeholder="Enter task..." required></textarea><br><br>
+        <textarea name="task" placeholder="Write a fun task…" required></textarea>
         <button type="submit">Send Task</button>
     </form>
 
-    <br>
-    <a href="{{ url_for('dashboard') }}">Back</a>
+    <a href="{{ url_for('dashboard') }}">⬅ Back</a>
+</div>
 </body>
 </html>

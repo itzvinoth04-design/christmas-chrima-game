@@ -2,21 +2,45 @@
 <html>
 <head>
     <title>View Task</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            background:
+              linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+              url("{{ url_for('static', filename='images/dashboard.jpg') }}")
+              no-repeat center center fixed;
+            background-size: cover;
+            font-family: "Segoe UI", sans-serif;
+            color: white;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.15);
+            padding: 25px;
+            border-radius: 18px;
+            max-width: 500px;
+            margin: auto;
+        }
+    </style>
 </head>
+
 <body>
-    <h2>📋 Your Assigned Tasks</h2>
+<div class="card">
+    <h2>📋 Your Tasks</h2>
 
     {% if tasks %}
         <ul>
-            {% for task in tasks %}
-                <li>{{ task.content }}</li>
-            {% endfor %}
+        {% for task in tasks %}
+            <li>{{ task.content }}</li>
+        {% endfor %}
         </ul>
     {% else %}
-        <p>No tasks assigned yet.</p>
+        <p>No tasks yet 🎄</p>
     {% endif %}
 
-    <br>
-    <a href="{{ url_for('dashboard') }}">Back</a>
+    <a href="{{ url_for('dashboard') }}">⬅ Back</a>
+</div>
 </body>
 </html>
