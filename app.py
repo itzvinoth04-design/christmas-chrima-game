@@ -18,6 +18,9 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
+with app.app_context():
+    db.create_all()
+    print("✅ Supabase tables created")
 
 # Login manager
 login_manager = LoginManager(app)
@@ -25,7 +28,7 @@ login_manager.login_view = "login"
 
 # ------------------ MODEL ------------------
 class User(UserMixin, db.Model):
-    __tablename__ = "users"
+    __tablename__ = "userss"
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
